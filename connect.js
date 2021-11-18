@@ -66,6 +66,18 @@ module.exports = {
 			}
 		});
 	},
+	getDuelRecordsBetweenTwoUsers: function(firstDuelistId, secondDuelist, errorCallback, successCallback) {
+		pool.query('SELECT * FROM Duelrecords WHERE Firstduelist = ? && Secondduelist = ?', [firstDuelistId, secondDuelist], function(err, result) {
+			if (err) {
+				console.log('ERROR OCCURED!');
+				errorCallback();
+			}
+			else {
+				console.log('SUCCESS!');
+				successCallback(result);
+			}
+		});
+	},
 };
 
 
