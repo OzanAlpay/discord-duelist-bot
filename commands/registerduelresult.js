@@ -8,9 +8,9 @@ module.exports = {
 		.addUserOption(option => option.setName('secondduelist').setDescription('Select Second Duelist').setRequired(true))
 		.addIntegerOption(option => option.setName('duelresult').setDescription('Enter Duel Result as an integer such as 1,0,-1 etc').setRequired(true)),
 	async execute(interaction) {
-		const firstDuelist = interaction.options.getUser('firstduelist');
-		const secondDuelist = interaction.options.getUser('secondduelist');
-		const duelResult = interaction.options.getInteger('duelresult');
+		let firstDuelist = interaction.options.getUser('firstduelist');
+		let secondDuelist = interaction.options.getUser('secondduelist');
+		let duelResult = interaction.options.getInteger('duelresult');
 		if (firstDuelist.id === secondDuelist.id) {
 			await interaction.reply('Please select different users for duelists!');
 			return;
@@ -18,6 +18,13 @@ module.exports = {
 		else if (duelResult === 0) {
 			await interaction.reply('Duel Result Entered as 0, No need to save this duel result');
 			return;
+		}
+
+		if (firstDuelist.id > secondDuelist.id) {
+			const tempDuelist = secondDuelist;
+			secondDuelist = firstDuelist;
+			firstDuelist = tempDuelist;
+			duelResult = duelResult * -1;
 		}
 
 		getDuelistById(firstDuelist.id, () => {console.log('ERROR V1');}, async (result) => {
