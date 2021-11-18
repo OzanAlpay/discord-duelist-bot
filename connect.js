@@ -26,13 +26,43 @@ const pool = mysql.createPool({
 });
 
 module.exports = {
-	insertNewDuelist: function(duelistId, duelistName) {
+	insertNewDuelist: function(duelistId, duelistName, errorCallback, callback) {
 		pool.query('INSERT INTO Users(id, name) VALUES(?,?)', [duelistId, duelistName], function(err, result) {
 			if (err) {
-				return err;
+				errorCallback();
 			}
 			else {
-				return result;
+				console.log(result);
+				callback();
+			}
+		});
+	},
+	getDuelistById: function(duelistId, errorCallback, callback) {
+		console.log('getDuelistById function called!');
+		pool.query('SELECT * FROM Users WHERE id = ?', [duelistId], function(err, result) {
+			console.log('Get Duelist BY ID Called!');
+			if (err) {
+				errorCallback();
+				console.log('ERROR!');
+				console.log(err);
+				return -1;
+			}
+			else {
+				callback(result);
+			}
+		});
+	},
+	registerDuelRecord: function(firstDuelistId, secondDuelistId, duelresult, errorCallback, successCallback) {
+		pool.query('INSERT INTO Duelrecords(Firstduelist, Secondduelist, Result) VALUES(?,?,?)', [firstDuelistId, secondDuelistId, duelresult], function(err, result) {
+			if (err) {
+				console.log('ERROR OCCURED DURING INSERTING Duelrecord!');
+				console.log(err);
+				errorCallback();
+			}
+			else {
+				console.log('RESULT INSERTED!');
+				console.log(result);
+				successCallback(result);
 			}
 		});
 	},

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { insertNewDuelist } = require('../connect.js');
+const { insertNewDuelist, getDuelistById } = require('../connect.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('registerduelist')
@@ -8,7 +8,22 @@ module.exports = {
 	async execute(interaction) {
 		console.log('Execute Register Duelist Called!');
 		const selectedUser = interaction.options.getUser('target');
-		insertNewDuelist(selectedUser.id, selectedUser.username);
-		await interaction.reply(selectedUser.username + ' Registered');
+		getDuelistById(selectedUser.id, async () => {
+			await interaction.reply('An Error Occured Please Try Later');
+		}, async (result) => {
+			if (Array.isArray(result) && result.length) {
+				console.log('This user already registered!');
+				console.log(result);
+				await interaction.reply(selectedUser.username + ' is already registered!');
+			}
+			else {
+				console.log('This user is not registered!');
+				insertNewDuelist(selectedUser.id, selectedUser.username, async () => {
+					await interaction.reply('While registering ' + selectedUser.username + ' an error occured, please try again!');
+				}, async () => {
+					await interaction.reply(selectedUser.username + ' registered successfully!');
+				});
+			}
+		});
 	},
 };
