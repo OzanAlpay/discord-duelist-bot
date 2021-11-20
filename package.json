@@ -1,6 +1,6 @@
 {
-  "name": "codenamesbot",
-  "description": "Codenames Score Tracker Bot for Discord",
+  "name": "duelistbot",
+  "description": "Duelist Bot for Discord Servers",
   "version": "1.0.0",
   "scripts": {
     "start": "node index.js",

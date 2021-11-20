@@ -5,10 +5,8 @@ const pool = mysql.createPool({
 	user: process.env.DB_USER,
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_NAME,
-	socketPath: '/cloudsql/marine-pillar-332110:europe-west3:discordbotdb',
-	// host: process.env.DB_IP,
-	// port: process.env.DB_PORT,
-	// socketPath: process.env.DB_SOCKET_PATH,
+	host: process.env.DB_IP,
+	port: process.env.DB_PORT,
 	connectTimeout: 100000,
 });
 
@@ -61,20 +59,3 @@ module.exports = {
 		});
 	},
 };
-
-
-/*
-const query = 'SELECT * FROM Users';
-pool.query(query, (error, results) => {
-	if (error) {
-		console.log(error);
-	}
-	if (!results) {
-		console.log(results);
-		console.log('NOT FOUND!');
-	}
-	else {
-		console.log(results[0]);
-	}
-});
-*/

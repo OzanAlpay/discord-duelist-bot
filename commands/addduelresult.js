@@ -38,7 +38,6 @@ module.exports = {
 				registerDuelRecord(firstDuelist.id, secondDuelist.id, firstDuelistScore, secondDuelistScore, guildId, async () => {
 					await interaction.reply('An Error Occured While Inserting Duel Record!, Please Try Again Later!');
 				}, async (registerDuelData) => {
-					console.log(registerDuelData);
 					await interaction.reply('Duel Registered For ' + firstDuelist.username + ' VS ' + secondDuelist.username + ' =  ' + firstDuelistScore + ' : ' + secondDuelistScore);
 				});
 			});

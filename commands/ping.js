@@ -4,7 +4,6 @@ module.exports = {
 		.setName('hit')
 		.setDescription('Test Command'),
 	async execute(interaction) {
-		console.log('Ping Called!');
 		await interaction.reply('PONG!');
 	},
 };

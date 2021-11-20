@@ -31,8 +31,6 @@ module.exports = {
 				getDuelRecordsBetweenTwoUsers(firstDuelist.id, secondDuelist.id, guildId, async () => {
 					await interaction.reply('An Error Occured While Retrieving Duel Records!, Please Try Again Later!');
 				}, async (duelResults) => {
-					console.log('Duel Results = ');
-					console.log(duelResults);
 					let infoString = `LAST 10 DUELS BETWEEN ${firstDuelist.username} , ${secondDuelist.username}\n`;
 					const numberOfTotalMatches = duelResults.length - 1 ;
 					let firstDuelistTotalScore = 0;
