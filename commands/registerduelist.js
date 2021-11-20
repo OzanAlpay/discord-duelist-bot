@@ -6,6 +6,7 @@ module.exports = {
 		.setDescription('A Command for registering new duelist')
 		.addUserOption(option => option.setName('target').setDescription('Select a user to register').setRequired(true)),
 	async execute(interaction) {
+		console.log(interaction);
 		console.log('Execute Register Duelist Called!');
 		const selectedUser = interaction.options.getUser('target');
 		getDuelistById(selectedUser.id, async () => {

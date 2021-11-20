@@ -1,26 +1,13 @@
 const mysql = require('mysql');
 require('dotenv').config();
-console.log(process.env.DB_NAME);
-console.log(process.env.DB_IP);
-console.log(process.env.DB_PASSWORD);
 
-/*
 const pool = mysql.createPool({
 	user: process.env.DB_USER,
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_NAME,
-	host: process.env.DB_IP,
-	port: process.env.DB_PORT,
-	// socketPath: process.env.DB_SOCKET_PATH,
-	connectTimeout: 100000,
-});
-*/
-const pool = mysql.createPool({
-	user: process.env.DB_USER,
-	password: process.env.DB_PASSWORD,
-	database: process.env.DB_NAME,
-	host: process.env.DB_IP,
-	port: process.env.DB_PORT,
+	socketPath: '/cloudsql/marine-pillar-332110:europe-west3:discordbotdb',
+	// host: process.env.DB_IP,
+	// port: process.env.DB_PORT,
 	// socketPath: process.env.DB_SOCKET_PATH,
 	connectTimeout: 100000,
 });
@@ -38,42 +25,37 @@ module.exports = {
 		});
 	},
 	getDuelistById: function(duelistId, errorCallback, callback) {
-		console.log('getDuelistById function called!');
 		pool.query('SELECT * FROM Users WHERE id = ?', [duelistId], function(err, result) {
 			console.log('Get Duelist BY ID Called!');
 			if (err) {
 				errorCallback();
 				console.log('ERROR!');
 				console.log(err);
-				return -1;
 			}
 			else {
 				callback(result);
 			}
 		});
 	},
-	registerDuelRecord: function(firstDuelistId, secondDuelistId, duelresult, errorCallback, successCallback) {
-		pool.query('INSERT INTO Duelrecords(Firstduelist, Secondduelist, Result) VALUES(?,?,?)', [firstDuelistId, secondDuelistId, duelresult], function(err, result) {
+	registerDuelRecord: function(firstDuelistId, secondDuelistId, firstDuelistScore, secondDuelistScore, guildid, errorCallback, successCallback) {
+		pool.query('INSERT INTO Duelrecords(Firstduelist, Secondduelist, Firstduelistscore, Secondduelistscore, guildid) VALUES(?,?,?,?,?)', [firstDuelistId, secondDuelistId, firstDuelistScore, secondDuelistScore, guildid], function(err, result) {
 			if (err) {
 				console.log('ERROR OCCURED DURING INSERTING Duelrecord!');
 				console.log(err);
 				errorCallback();
 			}
 			else {
-				console.log('RESULT INSERTED!');
-				console.log(result);
 				successCallback(result);
 			}
 		});
 	},
-	getDuelRecordsBetweenTwoUsers: function(firstDuelistId, secondDuelist, errorCallback, successCallback) {
-		pool.query('SELECT * FROM Duelrecords WHERE Firstduelist = ? && Secondduelist = ?', [firstDuelistId, secondDuelist], function(err, result) {
+	getDuelRecordsBetweenTwoUsers: function(firstDuelistId, secondDuelist, guildid, errorCallback, successCallback) {
+		pool.query('SELECT * FROM Duelrecords WHERE guildid = ? && Firstduelist = ? && Secondduelist = ?', [guildid, firstDuelistId, secondDuelist], function(err, result) {
 			if (err) {
 				console.log('ERROR OCCURED!');
 				errorCallback();
 			}
 			else {
-				console.log('SUCCESS!');
 				successCallback(result);
 			}
 		});
