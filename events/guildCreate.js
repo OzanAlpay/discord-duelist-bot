@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+const { createRequiredTablesForGuild } = require('../connect.js');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 module.exports = {
 	name: 'guildCreate',
@@ -19,7 +20,11 @@ module.exports = {
 
 		const rest = new REST({ version: '9' }).setToken(discordToken);
 		rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
-			.then(() => console.log('Successfully regisered application commands.'))
+			.then(() => {
+				console.log('Successfully regisered application commands.');
+				createRequiredTablesForGuild(guildId);
+			})
 			.catch(console.error);
 	},
+
 };

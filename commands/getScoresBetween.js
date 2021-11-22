@@ -37,7 +37,7 @@ module.exports = {
 					let secondDuelistTotalScore = 0;
 					for (let i = numberOfTotalMatches; i >= 0; i--) {
 						if (i > numberOfTotalMatches - 10) {
-							const readableDate = DateTime.fromJSDate(duelResults[i].date).setZone('UTC+4').setLocale('tr').toLocaleString(DateTime.DATETIME_MED);
+							const readableDate = DateTime.fromJSDate(duelResults[i].date).setZone('UTC+3').setLocale('tr').toLocaleString(DateTime.DATETIME_MED);
 
 							infoString = infoString + ' ' + firstDuelist.username +
 								' vs ' + secondDuelist.username +
