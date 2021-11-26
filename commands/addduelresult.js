@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getDuelistById, registerDuelRecord } = require('../connect.js');
+const { getDuelistById, registerDuelRecord, updateLeaderBoard } = require('../connect.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('addduelresult')
@@ -39,6 +39,7 @@ module.exports = {
 					await interaction.reply('An Error Occured While Inserting Duel Record!, Please Try Again Later!');
 				}, async (registerDuelData) => {
 					console.log(registerDuelData);
+					updateLeaderBoard(firstDuelist.id, secondDuelist.id, firstDuelistScore, secondDuelistScore, guildId);
 					await interaction.reply('Duel Registered For ' + firstDuelist.username + ' VS ' + secondDuelist.username + ' =  ' + firstDuelistScore + ' : ' + secondDuelistScore);
 				});
 			});
